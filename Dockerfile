@@ -15,7 +15,7 @@ RUN touch /etc/init.d/vsftpd \
         /etc/vsftpd/welcome.txt && \
     echo welcome xxx! > /etc/vsftpd/welcome.txt && \
     echo /sbin/nologin >> /etc/shells && \
-    echo "test\nanonymous" > /etc/vsftpd/user_list
+    echo $'test\nanonymous' > /etc/vsftpd/user_list
 
 
 RUN useradd -s /sbin/nologin -d /var/ftp/test test
