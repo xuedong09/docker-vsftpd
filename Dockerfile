@@ -5,6 +5,9 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 ENV DEBIAN_FRONTEND noninteractive
 
+RUN useradd -s /sbin/nologin -d /var/ftp/test test
+RUN echo "test:test" | chpasswd
+
 #RUN mkdir -p /var/ftp/{test,anon}/pub \
 RUN mkdir -p /var/ftp/test/pub \
             /var/run/vsftpd/empty \
@@ -19,9 +22,6 @@ RUN touch /etc/init.d/vsftpd \
     echo /sbin/nologin >> /etc/shells && \
     echo $'test' > /etc/vsftpd/user_list
 
-
-RUN useradd -s /sbin/nologin -d /var/ftp/test test
-RUN echo "test:test" | chpasswd
 
 RUN apt-get -y update && \
     apt-get -y upgrade && \
