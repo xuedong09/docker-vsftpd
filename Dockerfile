@@ -44,7 +44,7 @@ COPY supervisord.conf /usr/local/etc/supervisord.conf
 RUN echo "America/Los_Angeles" > /etc/timezone
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
-VOLUME ["/var/ftp"]
+VOLUME ["/data"]
 EXPOSE 21 20
 EXPOSE 30000-30009
 
