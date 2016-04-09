@@ -5,9 +5,11 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN mkdir -p /var/ftp/{test,anon}/pub \
+#RUN mkdir -p /var/ftp/{test,anon}/pub \
+RUN mkdir -p /var/ftp/test/pub \
             /var/run/vsftpd/empty \
-            /etc/vsftpd
+            /etc/vsftpd && \
+    chown test /var/ftp/test/pub 
 
 RUN touch /etc/init.d/vsftpd \
         /etc/vsftpd/user_list \
@@ -15,7 +17,7 @@ RUN touch /etc/init.d/vsftpd \
         /etc/vsftpd/welcome.txt && \
     echo welcome xxx! > /etc/vsftpd/welcome.txt && \
     echo /sbin/nologin >> /etc/shells && \
-    echo $'test\nanonymous' > /etc/vsftpd/user_list
+    echo $'test' > /etc/vsftpd/user_list
 
 
 RUN useradd -s /sbin/nologin -d /var/ftp/test test
