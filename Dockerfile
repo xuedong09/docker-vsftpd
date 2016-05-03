@@ -8,9 +8,14 @@ ENV DEBIAN_FRONTEND noninteractive
 #Avoid ERROR: invoke-rc.d: policy-rc.d denied execution of start.
 RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d
 
-RUN mkdir -p /var/ftp/{test,anon}/pub \
+RUN useradd -s /sbin/nologin -d /var/ftp/test test
+RUN echo "test:test" | chpasswd
+
+#RUN mkdir -p /var/ftp/{test,anon}/pub \
+RUN mkdir -p /var/ftp/test/pub \
             /var/run/vsftpd/empty \
-            /etc/vsftpd
+            /etc/vsftpd && \
+    chown test /var/ftp/test/pub 
 
 RUN touch /etc/init.d/vsftpd \
         /etc/vsftpd/user_list \
@@ -18,11 +23,8 @@ RUN touch /etc/init.d/vsftpd \
         /etc/vsftpd/welcome.txt && \
     echo welcome xxx! > /etc/vsftpd/welcome.txt && \
     echo /sbin/nologin >> /etc/shells && \
-    echo $'test\nanonymous' > /etc/vsftpd/user_list
+    echo $'test' > /etc/vsftpd/user_list
 
-
-RUN useradd -s /sbin/nologin -d /var/ftp/test test
-RUN echo "test:test" | chpasswd
 
 RUN apt-get -y update && \
     apt-get -y upgrade && \
@@ -45,7 +47,7 @@ COPY supervisord.conf /usr/local/etc/supervisord.conf
 RUN echo "America/Los_Angeles" > /etc/timezone
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
-VOLUME ["/var/ftp"]
+VOLUME ["/data"]
 EXPOSE 21 20
 EXPOSE 30000-30009
 
