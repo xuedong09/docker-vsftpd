@@ -5,6 +5,9 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 ENV DEBIAN_FRONTEND noninteractive
 
+#Avoid ERROR: invoke-rc.d: policy-rc.d denied execution of start.
+RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d
+
 RUN mkdir -p /var/ftp/{test,anon}/pub \
             /var/run/vsftpd/empty \
             /etc/vsftpd
