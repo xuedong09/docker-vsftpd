@@ -5,8 +5,8 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 ENV DEBIAN_FRONTEND noninteractive
 
-#Avoid ERROR: invoke-rc.d: policy-rc.d denied execution of start.
-RUN echo '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d
+#not work Avoid ERROR: invoke-rc.d: policy-rc.d denied execution of start.
+#RUN echo '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d
 
 RUN useradd -s /sbin/nologin -d /var/ftp/test test
 RUN echo "test:test" | chpasswd
@@ -27,7 +27,6 @@ RUN touch /etc/init.d/vsftpd \
 
 
 RUN apt-get -y update && \
-#    echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d && \
     apt-get -y upgrade && \
     apt-get -y --force-yes --fix-missing install \
 #        python-dev \
