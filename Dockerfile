@@ -6,7 +6,7 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 ENV DEBIAN_FRONTEND noninteractive
 
 #Avoid ERROR: invoke-rc.d: policy-rc.d denied execution of start.
-RUN echo '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d
+RUN echo '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d
 
 RUN useradd -s /sbin/nologin -d /var/ftp/test test
 RUN echo "test:test" | chpasswd
